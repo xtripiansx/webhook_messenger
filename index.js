@@ -1,12 +1,13 @@
 'use strict';
+//access token
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 // Imports dependencies and set up http server
 const
     express = require('express'),
     bodyParser = require('body-parser'),
     app = express().use(bodyParser.json()); // creates express http server
-//access token
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN,
+
 // Sets server port and logs message on success
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
@@ -34,7 +35,7 @@ app.post('/webhook', (req, res) => {
             // Get the sender PSID
             let sender_psid = webhook_event.sender.id;
             console.log('Sender PSID: ' + sender_psid);
-            
+
         });
 
         // Returns a '200 OK' response to all requests
