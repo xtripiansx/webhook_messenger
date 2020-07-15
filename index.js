@@ -31,10 +31,11 @@ app.post('/webhook', (req, res) => {
             // Gets the message. entry.messaging is an array, but 
             // will only ever contain one message, so we get index 0
             let webhook_event = entry.messaging[0];
-            console.log("Webhook event: \n" + webhook_event + "\n");
+            //console.log(webhook_event);
+            console.log("webhook_event received");
 
             // Get the sender PSID
-            let sender_psid = webhook_event.sender.id;
+            //let sender_psid = webhook_event.sender.id;
             //console.log('Sender PSID: ' + sender_psid);
 
             // Check if the event is a message or postback and
@@ -93,12 +94,12 @@ function greetingTrait(nlp, name) {
     return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
 }
 
-//if greeting exists, extract entity and traits
+//if science exists, extract entity and traits
 function scienceTrait(nlp, name) {
     return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
 }
 
-//if greeting exists, extract entity and traits
+//if economics exists, extract entity and traits
 function economicsTrait(nlp, name) {
     return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
 }
@@ -116,15 +117,13 @@ function handleMessage(sender_psid, received_message) {
     if (greeting && greeting.confidence > 0.8) {
         // Create the payload for a basic text message
         response = {
-            "text": `Hello, ik ben een chatbot die jou gaat adviseren welk studierichting het best bij jou past.\n 
-            Vertel me, wat zijn jou interesses op school en in het leven?`
+            "text": `Hello, ik ben een chatbot die jou gaat adviseren welk studierichting het best bij jou past.\nVertel me, wat zijn jou interesses op school en in het leven?`
         }
 
     } else if (science && science.confidence > 0.8) {
         // Create the payload for a basic text message
         response = {
-            "text": `Met de informatie die je me hebt gegeven, 
-            kan ik met zekerheid zeggen dat je wetenschappen graag zou doen!`
+            "text": `Met de informatie die je me hebt gegeven, kan ik met zekerheid zeggen dat je wetenschappen graag zou doen!`
         }
     } else if (economics && economics.confidence > 0.8) {
         // Create the payload for a basic text message
@@ -161,6 +160,10 @@ function handleMessage(sender_psid, received_message) {
             }
         }
 
+    }else{
+        response = {
+            "text": `Sorry, maar ik beschik niet over de nodige informatie om jou te helpen.`
+        }
     }
 
     // Sends the response message
