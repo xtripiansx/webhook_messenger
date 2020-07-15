@@ -88,7 +88,8 @@ app.get('/webhook', (req, res) => {
 
 // --------------------------------------------------------------------------------------------------------
 
-function firstTrait(nlp, name) {
+//if greeting exists, extract entity and traits
+function greetingTrait(nlp, name) {
     return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
 }
 
@@ -98,14 +99,27 @@ function handleMessage(sender_psid, received_message) {
     let response;
 
     // check greeting is here
-    const greeting = firstTrait(received_message.nlp, 'begroeting');
+    const greeting = greetingTrait(received_message.nlp, 'begroeting');
 
     if (greeting && greeting.confidence > 0.8) {
         // Create the payload for a basic text message
         response = {
-            "text": `Hello there!`
+            "text": `Hello, ik ben een chatbot die jou gaat adviseren welk studierichting het best bij jou past.\n 
+            Vertel me, wat zijn jou interesses op school en in het leven?`
         }
 
+    } else if (science && science.confidence > 0.8) {
+        // Create the payload for a basic text message
+        response = {
+            "text": `Met de informatie die je me hebt gegeven, 
+            kan ik met zekerheid zeggen dat je wetenschappen graag zou doen!`
+        }
+    } else if (economics && economics.confidence > 0.8) {
+        // Create the payload for a basic text message
+        response = {
+            "text": `Met de informatie die je me hebt gegeven, 
+            kan ik met zekerheid zeggen dat je wetenschappen graag zou doen!`
+        }
     } else if (received_message.attachments) {
 
         // Gets the URL of the message attachment
