@@ -88,6 +88,10 @@ app.get('/webhook', (req, res) => {
 
 // --------------------------------------------------------------------------------------------------------
 
+function firstTrait(nlp, name) {
+    return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
+}
+
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
 
