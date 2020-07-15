@@ -93,13 +93,25 @@ function greetingTrait(nlp, name) {
     return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
 }
 
+//if greeting exists, extract entity and traits
+function scienceTrait(nlp, name) {
+    return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
+}
+
+//if greeting exists, extract entity and traits
+function economicsTrait(nlp, name) {
+    return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
+}
+
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
 
     let response;
 
-    // check greeting is here
+    // check greeting, science or economics trait is present
     const greeting = greetingTrait(received_message.nlp, 'begroeting');
+    const science = scienceTrait(received_message.nlp, 'wetenschappen');
+    const economics = economicsTrait(received_message.nlp, 'economie');
 
     if (greeting && greeting.confidence > 0.8) {
         // Create the payload for a basic text message
@@ -117,8 +129,7 @@ function handleMessage(sender_psid, received_message) {
     } else if (economics && economics.confidence > 0.8) {
         // Create the payload for a basic text message
         response = {
-            "text": `Met de informatie die je me hebt gegeven, 
-            kan ik met zekerheid zeggen dat je wetenschappen graag zou doen!`
+            "text": `Met wat je me hebt verteld, heb ik de zekerheid dat economie iets is voor u!`
         }
     } else if (received_message.attachments) {
 
