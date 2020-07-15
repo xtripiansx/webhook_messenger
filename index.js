@@ -31,7 +31,7 @@ app.post('/webhook', (req, res) => {
             // Gets the message. entry.messaging is an array, but 
             // will only ever contain one message, so we get index 0
             let webhook_event = entry.messaging[0];
-            console.log(webhook_event);
+            console.log("Webhook event: \n" + webhook_event + "\n");
 
             // Get the sender PSID
             let sender_psid = webhook_event.sender.id;
@@ -76,7 +76,7 @@ app.get('/webhook', (req, res) => {
         if (mode === 'subscribe' && token === VERIFY_TOKEN) {
 
             // Responds with the challenge token from the request
-            console.log('WEBHOOK_VERIFIED');
+            //console.log('WEBHOOK_VERIFIED');
             res.status(200).send(challenge);
 
         } else {
@@ -89,7 +89,6 @@ app.get('/webhook', (req, res) => {
 // --------------------------------------------------------------------------------------------------------
 
 function firstTrait(nlp, name) {
-    console.log("NLP: \n" + nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0] + "\n");
     return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
 }
 
@@ -98,17 +97,10 @@ function handleMessage(sender_psid, received_message) {
 
     let response;
 
-    // check greeting is here and is confident
+    // check greeting is here
     const greeting = firstTrait(received_message.nlp, 'begroeting');
-    
-    // Check if the message contains text
-    if (received_message.text) {
 
-        // Create the payload for a basic text message
-        response = {
-            "text": `You sent the message: "${received_message.text}"`
-        }
-    } else if (greeting && greeting.confidence > 0.8) {
+    if (greeting && greeting.confidence > 0.8) {
         // Create the payload for a basic text message
         response = {
             "text": `Hello there!`
