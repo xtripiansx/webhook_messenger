@@ -98,7 +98,7 @@ function handleMessage(sender_psid, received_message) {
     let response;
 
     // check greeting is here and is confident
-    const greeting = firstTrait(message.nlp, 'wit$greetings');
+    const greeting = firstTrait(received_message.nlp, 'wit$greetings');
 
     // Check if the message contains text
     if (received_message.text) {
