@@ -93,13 +93,22 @@ function handleMessage(sender_psid, received_message) {
 
     let response;
 
+    // check greeting is here and is confident
+    const greeting = firstTrait(message.nlp, 'wit$greetings');
+
     // Check if the message contains text
     if (received_message.text) {
 
         // Create the payload for a basic text message
         response = {
-            "text": `You sent the message: "${received_message.text}". Now send me an image!`
+            "text": `You sent the message: "${received_message.text}"`
         }
+    } else if (greeting && greeting.confidence > 0.8) {
+        // Create the payload for a basic text message
+        response = {
+            "text": `Hello there!`
+        }
+
     } else if (received_message.attachments) {
 
         // Gets the URL of the message attachment
