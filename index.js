@@ -89,6 +89,7 @@ app.get('/webhook', (req, res) => {
 // --------------------------------------------------------------------------------------------------------
 
 function firstTrait(nlp, name) {
+    console.log("NLP: \n" + nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0] + "\n");
     return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
 }
 
@@ -98,9 +99,8 @@ function handleMessage(sender_psid, received_message) {
     let response;
 
     // check greeting is here and is confident
-    const greeting = firstTrait(received_message.nlp, 'wit$begroeting');
-    console.log("NLP: \n" + received_message.nlp && received_message.nlp.entities && received_message.nlp.traits);
-
+    const greeting = firstTrait(received_message.nlp, 'begroeting');
+    
     // Check if the message contains text
     if (received_message.text) {
 
