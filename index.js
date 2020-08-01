@@ -114,6 +114,9 @@ function handleMessage(sender_psid, received_message) {
     const science = scienceTrait(received_message.nlp, 'wetenschappen');
     const economics = economicsTrait(received_message.nlp, 'economie');
 
+    console.log(greeting);
+    console.log(science);
+
     if (greeting && greeting.confidence > 0.8) {
         // Create the payload for a basic text message
         response = {
