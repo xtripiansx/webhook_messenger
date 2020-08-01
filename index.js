@@ -101,6 +101,9 @@ function scienceTrait(nlp, name) {
 
 //if economics exists, extract entity and traits
 function economicsTrait(nlp, name) {
+    console.log(
+        nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0]
+    );
     return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
 }
 
@@ -114,9 +117,6 @@ function handleMessage(sender_psid, received_message) {
     const science = scienceTrait(received_message.nlp, 'wetenschappen');
     const economics = economicsTrait(received_message.nlp, 'economie');
 
-    console.log(greeting);
-    console.log(science);
-
     if (greeting && greeting.confidence > 0.8) {
         // Create the payload for a basic text message
         response = {
@@ -126,7 +126,7 @@ function handleMessage(sender_psid, received_message) {
     } else if (science && science.confidence > 0.8) {
         // Create the payload for a basic text message
         response = {
-            "text": `Met de informatie die je me hebt gegeven, kan ik met zekerheid zeggen dat je wetenschappen graag zou doen!`
+            "text": `Met de informatie die je me hebt gegeven, denk ik dat je wetenschappen graag zou doen!`
         }
     } else if (economics && economics.confidence > 0.8) {
         // Create the payload for a basic text message
